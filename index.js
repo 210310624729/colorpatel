@@ -1,19 +1,17 @@
 function changeColor(color) {
-  document.body.style.backgroundColor = color;
-  localStorage.setItem("selectedColor", color);
+    document.body.style.backgroundColor = color;
 }
-
-function buttonAnimation(color) {
-  var activeButton = document.querySelector("#" + color);
-  activeButton.classList.add("pressed");
-  setTimeout(function () {
+function buttonAnimation(color)
+{
+ var activeButton = document.querySelector('#' + color);
+ activeButton.classList.add("pressed");
+ setTimeout(function(){
     activeButton.classList.remove("pressed");
-  }, 100);
+ },100 );
 }
+const colorButtons = document.querySelectorAll('.item');
 
-const colorButtons = document.querySelectorAll(".item");
-
-colorButtons.forEach((button) => {
+colorButtons.forEach(button => {
   button.addEventListener("click", function () {
     const colorId = this.id;
     let colorCode;
@@ -53,11 +51,44 @@ colorButtons.forEach((button) => {
     changeColor(colorCode);
     buttonAnimation(colorCode);
   });
+  // Define a variable to store the selected color
+  let selectedColor = localStorage.getItem("selectedColor") || "white";
+
+  function changeColor(color) {
+    document.body.style.backgroundColor = color;
+    selectedColor = color; // Update the variable
+    localStorage.setItem("selectedColor", color);
+  }
+
+  function buttonAnimation(color) {
+    var activeButton = document.querySelector("#" + color);
+    activeButton.classList.add("pressed");
+    setTimeout(function () {
+      activeButton.classList.remove("pressed");
+    }, 100);
+  }
+
+  const colorButtons = document.querySelectorAll(".item");
+
+  colorButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const colorId = this.id;
+      let colorCode = colorId;
+
+      changeColor(colorCode);
+      buttonAnimation(colorCode);
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (selectedColor) {
+      changeColor(selectedColor);
+    }
+  });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  const savedColor = localStorage.getItem("selectedColor");
-  if (savedColor) {
-    changeColor(savedColor);
-  }
-});
+
+
+
+
+
